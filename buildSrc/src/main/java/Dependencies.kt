@@ -49,9 +49,9 @@ object Versions {
   const val kotlin = "1.2.50"
 
   // Support Lib
-  const val support = "27.1.1"
+  // const val support = "27.1.1"
   // Comment above and uncomment below to cause conflict in dependency
-  //const val support = "26.0.1"
+  const val support = "26.0.1"
   const val constraintLayout = "1.1.0"
 
   // Testing

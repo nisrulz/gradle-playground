@@ -156,7 +156,30 @@ dependencies {
   androidTestImplementation Deps.espressoCore
 }
 
-// TODO: Add Dependency Conflict Management block here
+// Dependency Conflict Management
+configurations.all {
+  resolutionStrategy {
+    // fail eagerly on version conflict (includes transitive dependencies)
+    // e.g. multiple different versions of the same dependency (group and name are equal)
+    failOnVersionConflict()
+
+    // prefer modules that are part of this build (multi-project or composite build) over external modules
+    preferProjectModules()
+
+    // force certain versions of dependencies (including transitive)
+    //  *append new forced modules:
+    force 'com.android.support:support-annotations:26.0.1'
+    //  *replace existing forced modules with new ones:
+    forcedModules = ['com.android.support:support-annotations:26.0.1']
+
+    // add dependency substitution rules
+    // NOTE: This property is incubating and may change in a future version of Gradle.
+    dependencySubstitution {
+      substitute module('com.android.support:support-annotations:27.1.1') with module('com.android.support:support-annotations:26.0.1')
+    }
+  }
+}
+
 
 // Skip Task Example 1
 // Example to test disabling a task

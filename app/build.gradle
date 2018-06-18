@@ -108,7 +108,11 @@ android {
     // Debug Build Type
     debug {
 
-      // TODO: Modify application id and version name
+      // Application id suffix. It is appended to the "base" application id when calculating the final application id for a variant.
+      applicationIdSuffix ".debug"
+
+      // Version name suffix. It is appended to the "base" version name when calculating the final version name for a variant.
+      versionNameSuffix "-debug"
 
       // TODO: setup debug flags
 

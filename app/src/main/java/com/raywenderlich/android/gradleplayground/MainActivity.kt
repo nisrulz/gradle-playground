@@ -33,7 +33,6 @@ package com.raywenderlich.android.gradleplayground
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.raywenderlich.android.gradleplayground.R.id.btnLetsPlay
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

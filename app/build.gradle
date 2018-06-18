@@ -43,7 +43,7 @@ android {
 
   // compileSdkVersion specifies the Android API level Gradle should use to compile your app. This
   // means your app can use the API features included in this API level and lower.
-  compileSdkVersion 27
+  compileSdkVersion Versions.compileSDK
 
   /*
    * The defaultConfig block encapsulates default settings and entries for all
@@ -61,16 +61,16 @@ android {
     applicationId "com.raywenderlich.android.gradleplayground"
 
     // Defines the minimum API level required to run the app.
-    minSdkVersion 14
+    minSdkVersion Versions.minSDK
 
     // Specifies the API level used to test the app.
-    targetSdkVersion 27
+    targetSdkVersion Versions.targetSDK
 
     // Defines the version number of your app.
-    versionCode 1
+    versionCode Versions.appVersionCode
 
     // Defines a user-friendly version name for your app.
-    versionName "1.0"
+    versionName Versions.appVersionName
 
     // Set Flavor Dimensions
     flavorDimensions "default"
@@ -144,16 +144,16 @@ dependencies {
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
   // Kotlin
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+  implementation Deps.kotlinStdLib
 
   // Support Libraries
-  implementation 'com.android.support:appcompat-v7:27.1.1'
-  implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+  implementation Deps.appCompat
+  implementation Deps.constraintLayout
 
   // Testing
-  testImplementation 'junit:junit:4.12'
-  androidTestImplementation 'com.android.support.test:runner:1.0.2'
-  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+  testImplementation Deps.junit
+  androidTestImplementation Deps.testRunner
+  androidTestImplementation Deps.espressoCore
 }
 
 // TODO: Add Dependency Conflict Management block here

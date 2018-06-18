@@ -42,7 +42,10 @@ Java_com_raywenderlich_android_gradleplayground_MainActivity_stringFromJNI(
 
     LOGD("Message: %s", hello.c_str());
 
-    // TODO: Add LOGD statements to log flags set at build time
+    LOGI("Number of kids: %d", NUMBER_OF_KIDS);
+
+    // Flag shown in logs would be as per: true == 1, false == 0
+    LOGW("Logs enabled: %d", NDK_ENABLE_LOGS);
 
     return env->NewStringUTF(hello.c_str());
 }

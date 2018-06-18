@@ -120,7 +120,21 @@ android {
       // Adds a new generated resource.
       resValue "string", "app_type", "Debug"
 
-      // TODO: Declare flags to be passed to native code
+      externalNativeBuild {
+        cmake {
+          // Pass arguments to your native code
+          /*
+              -D<macroname>=<value>
+                Adds  an  implicit  #define  into the predefines buffer which is
+                read before the source file is preprocessed.
+           */
+          // Passed to your compiler i.e clang/gcc, hence available to your c/c++ code
+          cppFlags.add("-DNDK_ENABLE_LOGS=true")
+          // Pass more arguments to your native code
+          cppFlags.add("-DNUMBER_OF_KIDS=3")
+        }
+      }
+
     }
 
     // Release Build Type
@@ -137,7 +151,12 @@ android {
 
       resValue "string", "app_type", "Release"
 
-      // TODO: Declare flags to be passed to native code
+      externalNativeBuild {
+        cmake {
+          cppFlags.add("-DNDK_ENABLE_LOGS=false")
+          cppFlags.add("-DNUMBER_OF_KIDS=10")
+        }
+      }
     }
   }
 

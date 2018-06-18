@@ -176,7 +176,26 @@ android {
     }
   }
 
-  // TODO: Add Product Flavors block here
+  // Product flavors represent different versions of your app that you may release to users
+  productFlavors {
+    // Free Product Flavor
+    free {
+      applicationIdSuffix ".free"
+      versionNameSuffix "-free"
+    }
+
+    // Beta Product Flavor
+    beta {
+      applicationIdSuffix ".beta"
+      versionNameSuffix "-beta"
+    }
+
+    // Pro Product Flavor
+    pro {
+      applicationIdSuffix ".pro"
+    }
+  }
+
 
   /*
  * The splits block is where you can configure different APK builds that

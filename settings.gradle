@@ -1,1 +1,7 @@
 include ':app'
+
+// Make each module build script filename match that of the project name
+// Don't forget to rename each module's build.gradle file to <moduleName>.gradle e.g app.gradle
+rootProject.children.each{
+  it.buildFileName = it.name + '.gradle'
+}

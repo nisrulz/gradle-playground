@@ -112,9 +112,13 @@ android {
 
       // TODO: setup debug flags
 
-      // TODO: Declare release specific buildConfigField
+      // Define a variable at build time
+      buildConfigField "String", "SERVER_ENDPOINT", '"http://www.myendpoint.dev.com"'
+      buildConfigField "boolean", "ENABLE_LOGS", "true"
+      buildConfigField "String", "PLAYTIME_STARTED", '"No"'
 
-      // TODO: Add app_type string resource here with value specific to debug type
+      // Adds a new generated resource.
+      resValue "string", "app_type", "Debug"
 
       // TODO: Declare flags to be passed to native code
     }
@@ -127,9 +131,11 @@ android {
       // Specifies the ProGuard configuration files that the plugin should use.
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-      // TODO: Declare release specific buildConfigField
+      buildConfigField "String", "SERVER_ENDPOINT", '"http://www.myendpoint.com"'
+      buildConfigField "boolean", "ENABLE_LOGS", "false"
+      buildConfigField "String", "PLAYTIME_STARTED", '"Yes"'
 
-      // TODO: Add app_type string resource here with value specific to release type
+      resValue "string", "app_type", "Release"
 
       // TODO: Declare flags to be passed to native code
     }

@@ -33,6 +33,7 @@ package com.raywenderlich.android.gradleplayground
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.raywenderlich.android.gradleplayground.R.id.btnLetsPlay
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -69,7 +70,10 @@ class MainActivity : AppCompatActivity() {
       textToDisplay.append("App build type: ${BuildConfig.BUILD_TYPE}").append("\n\n")
       textToDisplay.append("Debuggable flag: ${checkAndroidDebuggableFlag()}")
 
-      // TODO: Append custom defined build variables to the textToDisplay
+      textToDisplay.append("Playtime started : ${BuildConfig.PLAYTIME_STARTED}").append("\n\n")
+      textToDisplay.append("Android logs enabled : ${BuildConfig.ENABLE_LOGS}").append("\n\n")
+      textToDisplay.append("Server endpoint: ${BuildConfig.SERVER_ENDPOINT}").append("\n\n")
+      textToDisplay.append("Server endpoint: ${getString(R.string.app_type)}").append("\n\n")
 
       textView.text = textToDisplay.toString()
     }

@@ -114,7 +114,15 @@ android {
       // Version name suffix. It is appended to the "base" version name when calculating the final version name for a variant.
       versionNameSuffix "-debug"
 
-      // TODO: setup debug flags
+      // Set whether this build type should generate a debuggable apk.
+      debuggable true
+
+      // Set whether this build type is configured to generate an APK with debuggable native code.
+      jniDebuggable true
+
+      // Set whether the build type is configured to generate an apk with debuggable RenderScript
+      // code.
+      renderscriptDebuggable true
 
       // Define a variable at build time
       buildConfigField "String", "SERVER_ENDPOINT", '"http://www.myendpoint.dev.com"'
@@ -143,6 +151,10 @@ android {
 
     // Release Build Type
     release {
+      debuggable false
+      jniDebuggable false
+      renderscriptDebuggable false
+
       // ProGuard tool is used to shrink and obfuscate your classes during the build process.
       // Set whether removal of unused java code or code shrinking is enabled for this build type.
       minifyEnabled false

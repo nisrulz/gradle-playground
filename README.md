@@ -2,6 +2,9 @@
 
 Sample project for raywenderlich.com tutorial
 
+- [Starter Project](/gradle-playground-starter-project)
+- [Final Project](/gradle-playground-final-project)
+
 <img src="img/sc.png" height="600em" />
 
 ## License
@@ -37,4 +40,5 @@ THE SOFTWARE.
 ```
 
 ## Author & support
+
 This project was created by [Nishant Srivastava](https://github.com/nisrulz/) but hopefully developed and maintained by many others. See the [list of contributors here](https://github.com/nisrulz/gradle-playground/graphs/contributors).

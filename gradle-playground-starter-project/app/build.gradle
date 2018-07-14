@@ -1,0 +1,167 @@
+/*
+ * Copyright (c) 2018 Razeware LLC
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
+ * distribute, sublicense, create a derivative work, and/or sell copies of the
+ * Software in any work that is designed, intended, or marketed for pedagogical or
+ * instructional purposes related to programming, coding, application development,
+ * or information technology.  Permission for such use, copying, modification,
+ * merger, publication, distribution, sublicensing, creation of derivative works,
+ * or sale is expressly withheld.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+// This applies the Android plugin for Gradle to this build and makes the android block available
+// to specify Android-specific build options.
+apply plugin: 'com.android.application'
+
+// This applies the Kotlin Android plugin to this build
+apply plugin: 'kotlin-android'
+
+// This applies the Kotlin Android Extensions plugin to this build
+apply plugin: 'kotlin-android-extensions'
+
+// The android block is where you configure all your Android-specific build options.
+android {
+
+  // compileSdkVersion specifies the Android API level Gradle should use to compile your app. This
+  // means your app can use the API features included in this API level and lower.
+  compileSdkVersion 27
+
+  /*
+   * The defaultConfig block encapsulates default settings and entries for all
+   * build variants, and can override some attributes in main/AndroidManifest.xml
+   * dynamically from the build system. You can configure product flavors to override
+   * these values for different versions of your app.
+   */
+  defaultConfig {
+
+    /*
+     * applicationId uniquely identifies the package for publishing.
+     * However, your source code should still reference the package name
+     * defined by the package attribute in the main/AndroidManifest.xml file.
+     */
+    applicationId "com.raywenderlich.android.gradleplayground"
+
+    // Defines the minimum API level required to run the app.
+    minSdkVersion 14
+
+    // Specifies the API level used to test the app.
+    targetSdkVersion 27
+
+    // Defines the version number of your app.
+    versionCode 1
+
+    // Defines a user-friendly version name for your app.
+    versionName "1.0"
+
+    // Set Flavor Dimensions
+    flavorDimensions "default"
+
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    // This block is different from the one you use to link Gradle
+    // to your CMake or ndk-build script.
+    externalNativeBuild {
+      // For ndk-build, instead use the ndkBuild block.
+      cmake {
+
+        // Passes optional arguments to CMake.
+        arguments "-DANDROID_TOOLCHAIN=clang"
+      }
+    }
+  }
+
+  // Use this block to link Gradle to your CMake or ndk-build script.
+  externalNativeBuild {
+    // Encapsulates your CMake build configurations.
+    // For ndk-build, instead use the ndkBuild block.
+    cmake {
+      // Tells Gradle to find the root CMake build script in the same
+      // directory as the module's build.gradle file. Gradle requires this
+      // build script to add your CMake project as a build dependency and
+      // pull your native sources into your Android project.
+      path "CMakeLists.txt"
+    }
+  }
+
+  // Build types define certain properties that Gradle uses when building and packaging your app,
+  // and are typically configured for different stages of your development lifecycle
+  buildTypes {
+    // Debug Build Type
+    debug {
+
+      // TODO: Modify application id and version name
+
+      // TODO: setup debug flags
+
+      // TODO: Declare debug specific buildConfigField
+
+      // TODO: Add app_type string resource here with value specific to debug type
+
+      externalNativeBuild {
+        cmake {
+           // TODO: Declare flags to be passed to native code
+        }
+      }
+    }
+
+    // Release Build Type
+    release {
+      // ProGuard tool is used to shrink and obfuscate your classes during the build process.
+      // Set whether removal of unused java code or code shrinking is enabled for this build type.
+      minifyEnabled false
+      // Specifies the ProGuard configuration files that the plugin should use.
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+      // TODO: Declare release specific buildConfigField
+
+      // TODO: Add app_type string resource here with value specific to release type
+
+      externalNativeBuild {
+        cmake {
+           // TODO: Declare flags to be passed to native code
+        }
+      }
+    }
+  }
+
+  // TODO: Add Product Flavors block here
+
+  // TODO: Add apk splits block here
+}
+
+dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+  // Kotlin
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+  // Support Libraries
+  implementation 'com.android.support:appcompat-v7:27.1.1'
+  implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+
+  // Testing
+  testImplementation 'junit:junit:4.12'
+  androidTestImplementation 'com.android.support.test:runner:1.0.2'
+  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+// TODO: Add Dependency Conflict Management block here

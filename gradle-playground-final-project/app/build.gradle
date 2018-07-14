@@ -1,0 +1,288 @@
+/*
+ * Copyright (c) 2018 Razeware LLC
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
+ * distribute, sublicense, create a derivative work, and/or sell copies of the
+ * Software in any work that is designed, intended, or marketed for pedagogical or
+ * instructional purposes related to programming, coding, application development,
+ * or information technology.  Permission for such use, copying, modification,
+ * merger, publication, distribution, sublicensing, creation of derivative works,
+ * or sale is expressly withheld.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+// This applies the Android plugin for Gradle to this build and makes the android block available
+// to specify Android-specific build options.
+apply plugin: 'com.android.application'
+
+// This applies the Kotlin Android plugin to this build
+apply plugin: 'kotlin-android'
+
+// This applies the Kotlin Android Extensions plugin to this build
+apply plugin: 'kotlin-android-extensions'
+
+// The android block is where you configure all your Android-specific build options.
+android {
+
+  // compileSdkVersion specifies the Android API level Gradle should use to compile your app. This
+  // means your app can use the API features included in this API level and lower.
+  compileSdkVersion Versions.compileSDK
+
+  /*
+   * The defaultConfig block encapsulates default settings and entries for all
+   * build variants, and can override some attributes in main/AndroidManifest.xml
+   * dynamically from the build system. You can configure product flavors to override
+   * these values for different versions of your app.
+   */
+  defaultConfig {
+
+    /*
+     * applicationId uniquely identifies the package for publishing.
+     * However, your source code should still reference the package name
+     * defined by the package attribute in the main/AndroidManifest.xml file.
+     */
+    applicationId "com.raywenderlich.android.gradleplayground"
+
+    // Defines the minimum API level required to run the app.
+    minSdkVersion Versions.minSDK
+
+    // Specifies the API level used to test the app.
+    targetSdkVersion Versions.targetSDK
+
+    // Defines the version number of your app.
+    versionCode Versions.appVersionCode
+
+    // Defines a user-friendly version name for your app.
+    versionName Versions.appVersionName
+
+    // Set Flavor Dimensions
+    flavorDimensions "default"
+
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    // This block is different from the one you use to link Gradle
+    // to your CMake or ndk-build script.
+    externalNativeBuild {
+      // For ndk-build, instead use the ndkBuild block.
+      cmake {
+
+        // Passes optional arguments to CMake.
+        arguments "-DANDROID_TOOLCHAIN=clang"
+      }
+    }
+  }
+
+  // Use this block to link Gradle to your CMake or ndk-build script.
+  externalNativeBuild {
+    // Encapsulates your CMake build configurations.
+    // For ndk-build, instead use the ndkBuild block.
+    cmake {
+      // Tells Gradle to find the root CMake build script in the same
+      // directory as the module's build.gradle file. Gradle requires this
+      // build script to add your CMake project as a build dependency and
+      // pull your native sources into your Android project.
+      path "CMakeLists.txt"
+    }
+  }
+
+  // Build types define certain properties that Gradle uses when building and packaging your app,
+  // and are typically configured for different stages of your development lifecycle
+  buildTypes {
+    // Debug Build Type
+    debug {
+
+      // Application id suffix. It is appended to the "base" application id when calculating the final application id for a variant.
+      applicationIdSuffix ".debug"
+
+      // Version name suffix. It is appended to the "base" version name when calculating the final version name for a variant.
+      versionNameSuffix "-debug"
+
+      // Set whether this build type should generate a debuggable apk.
+      debuggable true
+
+      // Set whether this build type is configured to generate an APK with debuggable native code.
+      jniDebuggable true
+
+      // Set whether the build type is configured to generate an apk with debuggable RenderScript
+      // code.
+      renderscriptDebuggable true
+
+      // Define a variable at build time
+      buildConfigField "String", "SERVER_ENDPOINT", '"http://www.myendpoint.dev.com"'
+      buildConfigField "boolean", "ENABLE_LOGS", "true"
+      buildConfigField "String", "PLAYTIME_STARTED", '"No"'
+
+      // Adds a new generated resource.
+      resValue "string", "app_type", "Debug"
+
+      externalNativeBuild {
+        cmake {
+          // Pass arguments to your native code
+          /*
+              -D<macroname>=<value>
+                Adds  an  implicit  #define  into the predefines buffer which is
+                read before the source file is preprocessed.
+           */
+          // Passed to your compiler i.e clang/gcc, hence available to your c/c++ code
+          cppFlags.add("-DNDK_ENABLE_LOGS=true")
+          // Pass more arguments to your native code
+          cppFlags.add("-DNUMBER_OF_KIDS=3")
+        }
+      }
+
+    }
+
+    // Release Build Type
+    release {
+      debuggable false
+      jniDebuggable false
+      renderscriptDebuggable false
+
+      // ProGuard tool is used to shrink and obfuscate your classes during the build process.
+      // Set whether removal of unused java code or code shrinking is enabled for this build type.
+      minifyEnabled false
+      // Specifies the ProGuard configuration files that the plugin should use.
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+      buildConfigField "String", "SERVER_ENDPOINT", '"http://www.myendpoint.com"'
+      buildConfigField "boolean", "ENABLE_LOGS", "false"
+      buildConfigField "String", "PLAYTIME_STARTED", '"Yes"'
+
+      resValue "string", "app_type", "Release"
+
+      externalNativeBuild {
+        cmake {
+          cppFlags.add("-DNDK_ENABLE_LOGS=false")
+          cppFlags.add("-DNUMBER_OF_KIDS=10")
+        }
+      }
+    }
+  }
+
+  // Product flavors represent different versions of your app that you may release to users
+  productFlavors {
+    // Free Product Flavor
+    free {
+      applicationIdSuffix ".free"
+      versionNameSuffix "-free"
+    }
+
+    // Beta Product Flavor
+    beta {
+      applicationIdSuffix ".beta"
+      versionNameSuffix "-beta"
+    }
+
+    // Pro Product Flavor
+    pro {
+      applicationIdSuffix ".pro"
+    }
+  }
+
+
+  /*
+ * The splits block is where you can configure different APK builds that
+ * each contain only code and resources for a supported screen density or
+ * ABI.
+ */
+  splits {
+
+    // Configures multiple APKs based on ABI.
+    abi {
+
+      // Enables building multiple APKs.
+      enable true
+
+      // By default all ABIs are included, so use reset() and include to specify that we only
+      // want APKs for x86, armeabi-v7a, and mips.
+      reset()
+
+      // Specifies a list of ABIs that Gradle should create APKs for.
+      include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+
+      // Specify that we want to also generate a universal APK that includes all ABIs.
+      universalApk true
+    }
+
+    // Configures multiple APKs based on screen density.
+    density {
+
+      // Enable or disable building multiple APKs.
+      enable false
+
+      // Exclude these densities when building multiple APKs.
+      exclude "ldpi", "tvdpi", "xxxhdpi", "400dpi", "560dpi"
+    }
+  }
+
+  // Map for the version code that gives each ABI a value.
+  project.ext.versionCodes = ['armeabi-v7a': 1, 'arm64-v8a': 2, 'x86': 3, 'x86_64': 4]
+
+  // Rename with proper versioning
+  android.applicationVariants.all { variant ->
+    // assign different version code for each output
+    variant.outputs.each { output ->
+      output.versionCodeOverride =
+          project.ext.versionCodes.get(output.getFilter(com.android.build.OutputFile.ABI), 0) *
+              100000 +
+              android.defaultConfig.versionCode
+    }
+  }
+}
+
+dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+  // Kotlin
+  implementation Deps.kotlinStdLib
+
+  // Support Libraries
+  implementation Deps.appCompat
+  implementation Deps.constraintLayout
+
+  // Testing
+  testImplementation Deps.junit
+  androidTestImplementation Deps.testRunner
+  androidTestImplementation Deps.espressoCore
+}
+
+// Dependency Conflict Management
+configurations.all {
+  resolutionStrategy {
+    // fail eagerly on version conflict (includes transitive dependencies)
+    // e.g. multiple different versions of the same dependency (group and name are equal)
+    failOnVersionConflict()
+
+    // prefer modules that are part of this build (multi-project or composite build) over external modules
+    preferProjectModules()
+
+    // force certain versions of dependencies (including transitive)
+    //  *append new forced modules:
+    force 'com.android.support:support-annotations:26.0.1'
+    //  *replace existing forced modules with new ones:
+    forcedModules = ['com.android.support:support-annotations:26.0.1']
+
+    // add dependency substitution rules
+    // NOTE: This property is incubating and may change in a future version of Gradle.
+    dependencySubstitution {
+      substitute module('com.android.support:support-annotations:27.1.1') with module('com.android.support:support-annotations:26.0.1')
+    }
+  }
+}

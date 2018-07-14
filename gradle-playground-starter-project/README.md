@@ -1,6 +1,6 @@
 # Gradle Playground
 
-Sample project for raywenderlich.com tutorial
+Sample project(starter) for raywenderlich.com tutorial
 
 <img src="img/sc.png" height="600em" />
 
@@ -37,4 +37,5 @@ THE SOFTWARE.
 ```
 
 ## Author & support
+
 This project was created by [Nishant Srivastava](https://github.com/nisrulz/) but hopefully developed and maintained by many others. See the [list of contributors here](https://github.com/nisrulz/gradle-playground/graphs/contributors).
